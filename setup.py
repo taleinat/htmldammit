@@ -23,7 +23,7 @@ setup(
     author='Tal Einat',
     author_email='taleinat@gmail.com',
     url='https://github.com/taleinat/htmldammit',
-    packages=['htmldammit'],
+    packages=['htmldammit', 'htmldammit.integrations'],
     package_dir={'': 'src'},
     install_requires=[
         'six',
