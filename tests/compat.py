@@ -6,6 +6,7 @@ import sys
 __all__ = [
     'unittest',
     'mock',
+    'html_escape',
 ]
 
 # The `unittest2` module is a backport of the new unittest features introduced
@@ -23,3 +24,8 @@ if sys.version_info < (3, 3):
     import mock
 else:
     import unittest.mock as mock
+
+if sys.version_info < (3, 2):
+    from cgi import escape as html_escape
+else:
+    from html import escape as html_escape

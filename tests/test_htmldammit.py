@@ -1,17 +1,10 @@
-import re
-import textwrap
-
 import six
 
 from tests.compat import unittest, mock
-from htmldammit import decode_html, make_UnicodeDammit, make_lxml_html
+from tests.utils import multiline_string
 
-
-def multiline_string(s):
-    m = re.match(r'^[ \t]*\n', s, re.U)
-    if m is not None:
-        s = s[m.end():]
-    return textwrap.dedent(s)
+from htmldammit import decode_html, make_lxml_html
+from htmldammit.core import make_UnicodeDammit
 
 
 class TestDecodeHtml(unittest.TestCase):
@@ -108,53 +101,49 @@ class TestMakeUnicodeDammit(unittest.TestCase):
         self.assertEqual(False, ud.is_html)
 
     def test_html_header(self):
-        raw_html = 'BLA'
+        raw_html = b'BLA'
         http_headers = {'Content-Type': 'text/html'}
 
-        with mock.patch('htmldammit.UnicodeDammit', MockUnicodeDammit):
+        with mock.patch('htmldammit.core.UnicodeDammit', MockUnicodeDammit):
             ud = make_UnicodeDammit(raw_html, http_headers)
 
         self.assertEqual(raw_html, ud.raw_html)
         self.assertEqual(True, ud.is_html)
         self.assertEqual([], ud.override_encodings)
-        self.assertEqual('html', ud.smart_quotes_to)
 
     def test_html_header_with_charset(self):
         for encoding in ['utf-8', 'utf-16', 'iso-8859-1', 'windows-1252']:
-            raw_html = 'BLA'
+            raw_html = b'BLA'
             http_headers = {'Content-Type': 'text/html; charset={charset}'.format(charset=encoding)}
 
-            with mock.patch('htmldammit.UnicodeDammit', MockUnicodeDammit):
+            with mock.patch('htmldammit.core.UnicodeDammit', MockUnicodeDammit):
                 ud = make_UnicodeDammit(raw_html, http_headers)
 
             self.assertEqual(raw_html, ud.raw_html)
             self.assertEqual(True, ud.is_html)
             self.assertEqual([encoding], ud.override_encodings)
-            self.assertEqual('html', ud.smart_quotes_to)
 
     def test_xhtml_header(self):
-        raw_html = 'BLA'
+        raw_html = b'BLA'
         http_headers = {'Content-Type': 'application/xhtml+xml'}
 
-        with mock.patch('htmldammit.UnicodeDammit', MockUnicodeDammit):
+        with mock.patch('htmldammit.core.UnicodeDammit', MockUnicodeDammit):
             ud = make_UnicodeDammit(raw_html, http_headers)
 
         self.assertEqual(raw_html, ud.raw_html)
         self.assertEqual(False, ud.is_html)
         self.assertEqual([], ud.override_encodings)
-        self.assertEqual('xml', ud.smart_quotes_to)
 
     def test_text_plain_header(self):
         raw_html = b'BLA'
         http_headers = {'Content-Type': 'text/plain'}
 
-        with mock.patch('htmldammit.UnicodeDammit', MockUnicodeDammit):
+        with mock.patch('htmldammit.core.UnicodeDammit', MockUnicodeDammit):
             ud = make_UnicodeDammit(raw_html, http_headers)
 
         self.assertEqual(raw_html, ud.raw_html)
         self.assertEqual(False, ud.is_html)
         self.assertEqual([], ud.override_encodings)
-        self.assertEqual('ascii', ud.smart_quotes_to)
 
 
 class TestLxmlHtml(unittest.TestCase):
@@ -183,7 +172,7 @@ class TestLxmlHtml(unittest.TestCase):
         self.assertEqual(u'Text', parsed.xpath('//p/text()')[0])
 
     def test_parsed_nonascii(self):
-        raw_html = u'<html><body><p>\u20AA</p></body></html>'
+        raw_html = u'<html><body><p>\u20AA</p></body></html>'.encode('utf-8')
         http_headers = {'Content-Type': 'text/html; charset=utf-8'}
         parsed = make_lxml_html(raw_html, http_headers)
         self.assertEqual(u'\u20AA', parsed.xpath('//p/text()')[0])
