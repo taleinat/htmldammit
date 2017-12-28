@@ -19,7 +19,7 @@ setup(
     version='0.1.0a0',
     description=('Make every effort to properly decode HTML,'
                  ' because HTML is unicode, dammit!'),
-    long_description=readfile('README.md'),
+    long_description=readfile('README.rst'),
     author='Tal Einat',
     author_email='taleinat@gmail.com',
     url='https://github.com/taleinat/htmldammit',
@@ -37,7 +37,6 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',

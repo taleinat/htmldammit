@@ -2,4 +2,4 @@ bumpversion
 httpretty
 sphinx
 virtualenv
-tox
+tox<3
