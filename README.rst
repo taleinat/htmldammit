@@ -20,6 +20,15 @@ htmldammit
 
 Make every effort to properly decode HTML, because HTML is unicode, dammit!
 
+Features
+--------
+
+* Very easy to use with integrations for ``requests`` and ``urlopen()``.
+* Utilizes information from HTTP headers, inline encoding declarations,
+  and UTF BOM-s (Byte Order Marks), as well as falling back to making a
+  best guess based on the raw data.
+* Improves upon BeautifulSoup's great ``UnicodeDammit`` utility.
+
 Installation
 ------------
 
@@ -28,7 +37,8 @@ Installation
     pip install htmldammit
 
 Additionally, it is *highly* recommended to install the ``cchardet`` and/or
-the ``chardet`` libraries:
+the ``chardet`` libraries. This will enable the fallback to guessing the
+encoding based on the raw data.
 
 .. code::
 
@@ -37,7 +47,7 @@ the ``chardet`` libraries:
 Basic usage
 -----------
 
-To parse binary HTML content (passing HTTP headers is optional):
+To decode any binary HTML content into unicode (passing HTTP headers is optional):
 
 .. code:: python
 
