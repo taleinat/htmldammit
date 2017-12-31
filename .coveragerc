@@ -1,0 +1,4 @@
+[paths]
+source =
+    src/htmldammit
+    */site-packages/htmldammit
