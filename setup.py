@@ -16,7 +16,7 @@ def readfile(file_path):
 
 setup(
     name='htmldammit',
-    version='0.1.0a0',
+    version='0.1.1',
     description=('Make every effort to properly decode HTML,'
                  ' because HTML is unicode, dammit!'),
     long_description=readfile('README.rst'),

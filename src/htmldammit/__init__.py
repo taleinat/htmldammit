@@ -14,7 +14,7 @@ A utility function, decode_html(), is supplied:
 
 html = decode_html(raw_html, http_headers)
 """
-__version__ = '0.1.0a0'
+__version__ = '0.1.1'
 __all__ = ['decode_html', 'make_lxml_html', 'make_soup']
 
 from htmldammit.core import decode_html, make_lxml_html, make_soup
